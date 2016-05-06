@@ -1,0 +1,62 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.iescomercio.clases;
+
+/**
+ *
+ * @author dapelle
+ */
+public class BlackJack {
+    
+    public static void iniciarPartida() {            
+        Baraja baraja = new Baraja();
+        Crupier crupier = new Crupier("Evaristo", baraja);
+        Jugador jugador = new Jugador("David", 2000.0);   
+        
+        do {
+            // Inicializamos mano
+            jugador.getMano().inicializarMano();
+            crupier.getMano().inicializarMano();
+            // Apuesta del jugador
+            jugador.apuesta();
+            // Cartas iniciales
+            jugador.getMano().añadirCarta(baraja.dameCarta());
+            jugador.getMano().añadirCarta(baraja.dameCarta());            
+            System.out.println(jugador.getMano()); // Mostrar mano
+            // Cartas del crupier
+            crupier.getMano().añadirCarta(baraja.dameCarta());
+            System.out.println(crupier.getMano()); // Mostar mano crupier
+            // Entregar cartas hasta plantarse
+            while (!jugador.plantarse()) {
+                jugador.getMano().añadirCarta(baraja.dameCarta());
+                System.out.println(jugador.getMano()); // Mostrar mano
+            }
+            // Juega el crupier hasta > 16
+             while (!crupier.plantarse()) {
+                crupier.getMano().añadirCarta(baraja.dameCarta());
+                System.out.println(crupier.getMano()); // Mostar mano crupier
+            }
+            // Comprobación ganador
+            if (jugador.getMano().damePuntuacion() > crupier.getMano().damePuntuacion()) { 
+                // Gana jugador
+                System.out.println("Gana jugador");
+                jugador.setSaldo(jugador.getSaldo() + jugador.getApuesta());
+                System.out.println("Saldo jugador: " + jugador.getSaldo());
+            } else if (jugador.getMano().damePuntuacion() < crupier.getMano().damePuntuacion()) {
+                // Gana crupier
+                System.out.println("Gana la banca");
+                jugador.setSaldo(jugador.getSaldo() - jugador.getApuesta());
+                System.out.println("Saldo jugador: " + jugador.getSaldo());
+            } else {
+                // Empate      
+                System.out.println("Empate");
+                System.out.println("Saldo jugador: " + jugador.getSaldo());
+            }
+            
+        } while(jugador.otraPartida());
+    }
+    
+}

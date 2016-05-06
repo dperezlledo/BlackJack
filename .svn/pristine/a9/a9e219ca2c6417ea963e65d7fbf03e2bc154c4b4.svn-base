@@ -1,0 +1,80 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.iescomercio.clases;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author dapelle
+ */
+public class Jugador extends Persona{    
+    private double saldo;
+    private double apuesta;    
+    private Mano mano;
+    private Scanner s;
+    
+    public Jugador(String nombre, double saldo) {
+        s = new Scanner(System.in);
+        setNombre(nombre);
+        this.saldo = saldo;
+        mano = new Mano();
+    }
+    
+    public void apuesta() {        
+        do {
+            System.out.println(getNombre() + " introduce apuesta: ");
+            this.apuesta = s.nextDouble();
+            if (this.getApuesta() <=this.getSaldo()) {
+                break;
+            }
+            System.out.println("No puede apostar mas que su saldo");
+        } while(true);
+    }
+
+    public Mano getMano() {
+        return mano;
+    }
+
+    public boolean plantarse() {
+        char aux;
+        do {
+            System.out.println("¿Desea plantarse " + getNombre() + " (S/N)?");
+            aux = s.next().charAt(0);
+            if (aux=='S')
+                return true;
+            else if (aux=='N')
+                return false;
+            
+        } while (true);
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public double getApuesta() {
+        return this.apuesta;
+    }
+
+    public double getSaldo() {
+        return this.saldo;
+    }
+
+    public boolean otraPartida() {
+        char aux;
+        do {
+            System.out.println("¿Otra partida " + getNombre() + "(S/N)?");
+            aux = s.next().charAt(0);
+            if (aux=='S') {                
+                return true;
+            } else if (aux=='N')
+                return false;
+            
+        } while (true);
+    }
+    
+}
